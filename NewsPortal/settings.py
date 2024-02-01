@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.flatpages.urls',
+    'django.contrib.flatpages',
     'news_portal',
     'NewsPortal',
 ]
