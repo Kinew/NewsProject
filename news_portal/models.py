@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
 
+from django.core.validators import MinValueValidator
+from django.urls import reverse
+
+
+
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
@@ -23,9 +28,12 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return self.name.title()
+
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='post',)
 
     NEWS = 'NW'
     ARTICLE = 'AR'
@@ -39,7 +47,15 @@ class Post(models.Model):
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+    added_at = models.DateTimeField(
+        auto_now=True,
+    )
 
+    def __str__(self):
+        return f'{self.name.title()}: {self.description[:10]}'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
     def like(self):
         self.rating += 1
@@ -72,3 +88,4 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
