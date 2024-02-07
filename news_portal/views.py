@@ -70,7 +70,17 @@ class PostCreate(CreateView):
     # модель товаров
     model = Post
     # и новый шаблон, в котором используется форма.
-    template_name = 'post_edit.html'
+    template_name = 'post_create.html'
+    context_object_name = 'create'
+
+
+    def form_valid(self, form):
+        post = form.save(commit = false)
+        if self.request.path == '/articles/create/':
+            post.post_news = 'AR'
+        return super().form_valid(form)
+
+
 
 # Добавляем представление для изменения товара.
 class PostUpdate(UpdateView):

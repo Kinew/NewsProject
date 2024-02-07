@@ -23,6 +23,8 @@ class Author(models.Model):
         self.ratingAutor = pRat *3 + cRat
         self.save()
 
+    def __str__(self):
+        return self.authorUser.username
 
 
 class Category(models.Model):
@@ -55,7 +57,7 @@ class Post(models.Model):
         return f'{self.name.title()}: {self.description[:10]}'
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.id)])
+        return reverse('post_detail', kwargs=[str(self.id)])
 
     def like(self):
         self.rating += 1

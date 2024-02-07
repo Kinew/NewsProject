@@ -10,9 +10,10 @@ class PostForm(forms.ModelForm):
    class Meta:
        model = Post
        fields = [
-           'name',
+           'author',
            'description',
-           'category'
+           'category',
+           'text',
        ]
 
        def clean(self):
@@ -27,5 +28,4 @@ class PostForm(forms.ModelForm):
            raise ValidationError(
                "Текст не должен быть идентичен названию."
            )
-
-           return cleaned_data
+       return cleaned_data
