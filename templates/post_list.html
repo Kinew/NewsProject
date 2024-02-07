@@ -40,13 +40,15 @@ News
                <td>Заголовок</td>
                <td>Дата публикации</td>
                <td>Категория</td>
+               <td>Добавить</td>
            </tr>
 
            {% for news in news %}
            <tr>
-               <td>{{ news.name }}</td>
-               <td>{{ news.description|truncatewords:20 }}</td>
+               <td>{{ news.title }}</td>
+               <td>{{ news.text|truncatewords:20 }}</td>
                <td>{{ news.category.name }}</td>
+               <td>{{ news.added_at.name }}</td>
            </tr>
            {% endfor %}
 
