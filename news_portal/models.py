@@ -50,11 +50,11 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
     added_at = models.DateTimeField(
-        auto_now=True,
+        auto_now=True
     )
 
     def __str__(self):
-        return f'{self.name.title()}: {self.description[:10]}'
+        return f'{self.title.title()}: {self.text[:10]}'
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs=[str(self.id)])
