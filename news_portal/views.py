@@ -1,13 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from .filters import PostFilter
 
@@ -78,7 +79,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
 
     def form_valid(self, form):
-        post = form.save(commit = false)
+        post = form.save(commit = False)
         if self.request.path == '/articles/create/':
             post.post_news = 'AR'
         return super().form_valid(form)
@@ -106,7 +107,7 @@ class CategoryListView(ListView):
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, id= self.kwargs['pk'])
-        queryset = post.objects.filter(category=self.category).order_by('-date')
+        queryset = Post.objects.filter(category=self.category).order_by('-date')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -116,7 +117,7 @@ class CategoryListView(ListView):
         return context
 
 
-@login_requried
+@login_required
 def subscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
