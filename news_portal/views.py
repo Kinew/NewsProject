@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from datetime import datetime
+from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render, get_object_or_404
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
@@ -118,6 +119,7 @@ class CategoryListView(ListView):
 
 
 @login_required
+@csrf_protect
 def subscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
